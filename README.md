@@ -21,8 +21,9 @@ npm run lint
 npm run build
 ```
 
-`npm test` is stale and is **not** a valid acceptance gate. It still checks an
-old starter loading skeleton and must not be used to judge current changes.
+There is no automated test suite. The acceptance gate is `npm run build`
+producing a complete `dist/client` export, together with a clean `npm run lint`
+run.
 
 ## How the site is organized
 

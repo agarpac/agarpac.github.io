@@ -28,7 +28,8 @@ accessible fallback experience.
 ## Verification and deployment
 
 - After executable changes, run `npm run lint` and `npm run build`.
-- `npm test` is stale and is not a valid gate for the current site.
+- There is no test suite. The acceptance gate is a successful `npm run build`
+  that produces `dist/client`, plus a clean `npm run lint`.
 - Deploy only through `.github/workflows/deploy-pages.yml` after changes reach
   `main`; never publish generated output directly.
 - The workflow may also be started manually with `workflow_dispatch`.
