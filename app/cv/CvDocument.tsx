@@ -1,4 +1,3 @@
-import Link from "next/link";
 import CvGithubLink from "./CvGithubLink";
 import CvNavigation, { CompanyTenure } from "./CvNavigation";
 import styles from "./cv.module.css";
@@ -106,9 +105,9 @@ export default function CvDocument() {
   return (
     <main className={styles.page} id="cv">
       <header className={styles.topbar}>
-        <Link className={styles.wordmark} href="/" aria-label="Volver a la portada">
+        <a className={styles.wordmark} href="#inicio" aria-label="Volver a la portada">
           AGARPAC<span aria-hidden="true">/</span>
-        </Link>
+        </a>
         <CvNavigation />
         <p className={styles.location}>Sevilla · Remoto</p>
       </header>

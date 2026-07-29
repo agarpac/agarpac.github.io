@@ -1,17 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import SignalField from "./SignalField";
 import TransitionActions from "./TransitionActions";
 import styles from "./intro.module.css";
 
 export default function IntroCover() {
   return (
-    <section className={styles.page} aria-labelledby="signal-title">
+    <section className={styles.page} id="inicio" aria-labelledby="signal-title">
       <header className={styles.nav}>
-        <Link className={styles.wordmark} href="/" aria-label="AGARPAC, inicio">
+        <a className={styles.wordmark} href="#inicio" aria-label="AGARPAC, inicio">
           AGARPAC<span aria-hidden="true">/</span>
-        </Link>
+        </a>
         <p className={styles.location}>Sevilla · remoto</p>
       </header>
       <div className={styles.stage}>
