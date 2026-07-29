@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+const htmlInCanvasOriginTrial =
+  "Ars5o1j/IrggUPHjAHCzdSB9bqAe/sK/U0cnH+x0Xdiuk4JttDZmuqsmYEbKBJ0J9vRF6G0OSBes4DpCPOiuaAAAAABXeyJvcmlnaW4iOiJodHRwczovL2FnYXJwYWMuZ2l0aHViLmlvOjQ0MyIsImZlYXR1cmUiOiJIVE1MSW5DYW52YXMiLCJleHBpcnkiOjE3OTI0NTQ0MDB9";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -52,6 +55,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <meta httpEquiv="origin-trial" content={htmlInCanvasOriginTrial} />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>

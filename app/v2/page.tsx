@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import RootExperience from "./RootExperience";
-import CvDocument from "./cv/CvDocument";
+import CompatibilityRedirect from "../CompatibilityRedirect";
 
 export const metadata: Metadata = {
   title: "AGARPAC — Alberto Garrido",
@@ -8,10 +7,6 @@ export const metadata: Metadata = {
     "Introducción interactiva al perfil profesional de Alberto Garrido, QA Lead y Product Builder.",
 };
 
-export default function Home() {
-  return (
-    <RootExperience>
-      <CvDocument />
-    </RootExperience>
-  );
+export default function SignalFieldPage() {
+  return <CompatibilityRedirect href="/" label="Ir a la portada actual" />;
 }

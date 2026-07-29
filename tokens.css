@@ -1,0 +1,45 @@
+:root {
+  --color-signal-paper: oklch(13% 0.012 255);
+  --color-signal-paper-deep: oklch(9% 0.01 255);
+  --color-signal-surface: oklch(18% 0.015 255);
+  --color-signal-ink: oklch(96% 0.008 85);
+  --color-signal-ink-muted: oklch(72% 0.012 255);
+  --color-signal-rule: oklch(34% 0.02 255);
+  --color-signal-accent: oklch(76% 0.15 68);
+  --color-signal-accent-ink: oklch(9% 0.01 255);
+  --color-signal-accent-soft: oklch(76% 0.15 68 / 0.18);
+  --color-signal-focus: oklch(88% 0.16 82);
+  --color-signal-shadow: oklch(3% 0.005 255 / 0.48);
+
+  --font-signal-display: var(--font-geist-sans), sans-serif;
+  --font-signal-body: var(--font-geist-sans), sans-serif;
+  --font-signal-mono: var(--font-geist-mono), monospace;
+
+  --space-signal-1: 0.25rem;
+  --space-signal-2: 0.5rem;
+  --space-signal-3: 0.75rem;
+  --space-signal-4: 1rem;
+  --space-signal-5: 1.25rem;
+  --space-signal-6: 1.5rem;
+  --space-signal-8: 2rem;
+  --space-signal-10: 2.5rem;
+  --space-signal-12: 3rem;
+  --space-signal-16: 4rem;
+
+  --text-signal-xs: 0.6875rem;
+  --text-signal-sm: 0.8125rem;
+  --text-signal-body: 1rem;
+  --text-signal-lede: clamp(1rem, 1.8vw, 1.25rem);
+  --text-signal-display: clamp(3.25rem, 10vw, 8.75rem);
+  --text-signal-statement: clamp(1.35rem, 3vw, 2.5rem);
+
+  --ease-signal-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-signal-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-signal-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-signal-fast: 140ms;
+  --dur-signal-base: 320ms;
+
+  --rule-signal-hair: 1px;
+  --radius-signal-control: 0.25rem;
+  --radius-signal-field: 1rem;
+}
