@@ -34,6 +34,20 @@ jobs:
       - name: Build static site
         run: npm run build
 
+      - name: Verify static export
+        run: |
+          set -euo pipefail
+          fail() {
+            echo "::error::Static export is incomplete: $1"
+            echo "::error::vinext is pinned to the 0.0.51-0.0.52 window on purpose. From 0.0.53 on, the export silently drops cv/index.html and 404.html while the build still exits 0. Check the vinext version in package.json before looking anywhere else."
+            exit 1
+          }
+          for page in index.html cv/index.html 404.html; do
+            [ -s "dist/client/$page" ] || fail "dist/client/$page is missing or empty"
+          done
+          grep -q 'id="cv"' dist/client/index.html || fail "dist/client/index.html has no id=\"cv\" marker, so the CV section did not render"
+          grep -q 'signal-title' dist/client/index.html || fail "dist/client/index.html has no signal-title marker, so the intro cover did not render"
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
