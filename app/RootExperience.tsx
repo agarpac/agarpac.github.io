@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import ParticleScroll from "../components/canvasui/ParticleScroll";
-import IntroCover from "./v2/IntroCover";
-import styles from "./v2/v2.module.css";
+import IntroCover from "./intro/IntroCover";
+import styles from "./intro/intro.module.css";
 
 type RootExperienceProps = {
   children: ReactNode;

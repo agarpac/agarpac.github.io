@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import DitheredObject from "../../components/canvasui/DitheredObject";
-import styles from "./v2.module.css";
+import styles from "./intro.module.css";
 
 type SignalFieldProps = {
   className?: string;

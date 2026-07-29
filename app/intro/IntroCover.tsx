@@ -3,7 +3,7 @@
 import Link from "next/link";
 import SignalField from "./SignalField";
 import TransitionActions from "./TransitionActions";
-import styles from "./v2.module.css";
+import styles from "./intro.module.css";
 
 export default function IntroCover() {
   return (

@@ -9,7 +9,7 @@ accessible fallback experience.
 - Keep user-visible copy in Spanish.
 - Preserve the root composition: `RootExperience` combines `IntroCover` and
   `CvDocument` through `ParticleScroll`.
-- Preserve `/cv` → `/#cv` and `/v2` → `/` compatibility.
+- Preserve `/cv` → `/#cv` compatibility.
 - Preserve the HTML fallback, reduced-motion behavior, and WebGL resource
   cleanup.
 - Do not remove unused starter scaffolding piecemeal. Treat cleanup as a

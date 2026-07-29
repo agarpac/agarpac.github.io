@@ -1,4 +1,4 @@
-import styles from "./v2.module.css";
+import styles from "./intro.module.css";
 
 export default function TransitionActions() {
   return (

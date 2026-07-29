@@ -40,7 +40,6 @@ RootExperience
 - `CvDocument` is the readable portfolio and CV content.
 - `ParticleScroll` coordinates the transition between them.
 - `/cv` remains compatible by redirecting to `/#cv`.
-- `/v2` remains compatible by redirecting to `/`.
 
 The application uses a static Next.js export through vinext. `npm run build`
 writes the deployable site to `dist/client`. Static export, trailing slashes,
