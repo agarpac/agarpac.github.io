@@ -23,6 +23,7 @@ export default function RootExperience({ children }: RootExperienceProps) {
       fade={0.85}
       settle={1.2}
       smoothing={0.6}
+      effectStart="#cv"
     >
       <div className={styles.introCover}>
         <IntroCover />

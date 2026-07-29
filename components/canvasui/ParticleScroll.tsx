@@ -33,6 +33,11 @@ export interface ParticleScrollOptions {
   settle?: number;
   /** Seconds the damped scroll takes to catch up with the real scroll. Higher feels more fluid. */
   smoothing?: number;
+  /**
+   * CSS selector for the first element that receives the effect. Everything above
+   * it stays fully assembled. Empty means the effect applies to the whole content.
+   */
+  effectStart?: string;
 }
 
 export interface ParticleScrollElements {
@@ -66,6 +71,7 @@ const DEFAULTS: Required<ParticleScrollOptions> = {
   fade: 0.85,
   settle: 1.2,
   smoothing: 0.6,
+  effectStart: "",
 };
 
 type PaintableCanvas = HTMLCanvasElement & {
@@ -348,6 +354,7 @@ export function createParticleScroll(
   gl.generateMipmap(gl.TEXTURE_2D);
 
   let contentMaxX = 1;
+  let effectStartY = 0;
 
   const rowTex = gl.createTexture()!;
   gl.bindTexture(gl.TEXTURE_2D, rowTex);
@@ -385,6 +392,30 @@ export function createParticleScroll(
     bg = [0, 0, 0];
   }
 
+  /**
+   * Resolves the effect boundary to a document-space y inside the scroller.
+   * Stays at 0 when no selector is set or the element is missing, which disables
+   * the exclusion. Reads layout, so it only runs on size or option changes.
+   */
+  function syncEffectStart() {
+    effectStartY = 0;
+    const selector = config.effectStart;
+    if (!selector) return;
+    let target: HTMLElement | null = null;
+    try {
+      target = content.querySelector<HTMLElement>(selector);
+    } catch {
+      target = null;
+    }
+    if (!target) return;
+    effectStartY = Math.max(
+      0,
+      target.getBoundingClientRect().top -
+        content.getBoundingClientRect().top +
+        content.scrollTop,
+    );
+  }
+
   function syncCanvasSize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const width = Math.max(1, Math.round(output.clientWidth * dpr));
@@ -406,6 +437,7 @@ export function createParticleScroll(
       }
       paintable.requestPaint!();
     }
+    syncEffectStart();
   }
 
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -436,6 +468,14 @@ export function createParticleScroll(
     gl!.generateMipmap(gl!.TEXTURE_2D);
   }
 
+  function smoothstep(edge0: number, edge1: number, x: number) {
+    const t = Math.min(
+      Math.max((x - edge0) / Math.max(edge1 - edge0, 1e-3), 0),
+      1,
+    );
+    return t * t * (3 - 2 * t);
+  }
+
   function rowTargetFor(docRowY: number) {
     if (reducedMotion || !introDone) return 1;
     const h = Math.max(output.clientHeight, 1);
@@ -452,7 +492,13 @@ export function createParticleScroll(
       line += (h + band - line) * endP * endP;
     }
     const vy = docRowY - scrollSmooth;
-    return Math.min(Math.max((line + band - vy) / band, 0), 1);
+    const natural = Math.min(Math.max((line + band - vy) / band, 0), 1);
+    if (effectStartY <= 0) return natural;
+    // Rows above the boundary stay at 1, the pass-through value: the base pass
+    // draws them verbatim and their particles are culled. The band-wide ramp
+    // keeps the transition from tearing at a single row.
+    const mask = smoothstep(effectStartY, effectStartY + band, docRowY);
+    return 1 - (1 - natural) * mask;
   }
 
   function updateRows(
@@ -673,7 +719,9 @@ export function createParticleScroll(
 
   return {
     setOptions(next) {
+      const previousStart = config.effectStart;
       Object.assign(config, next);
+      if (config.effectStart !== previousStart) syncEffectStart();
       start();
     },
     resize() {
