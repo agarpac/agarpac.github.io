@@ -14,7 +14,7 @@ const career = [
     ongoing: true,
     details: {
       projects:
-        "UEFA NTCM como QA Lead, easyJet, Deplace, Ebanq, Fisc Online, EmergyaDigital.com y Eurostar.",
+        "UEFA NTCM, easyJet, Deplace, Ebanq, Fisc Online, EmergyaDigital.com y Eurostar, entre otros.",
       work:
         "Scrum; Java y Selenium; Appium, Cypress y Botium; Postman; Jenkins y CI/CD; requisitos, planes de prueba manuales e incidencias; Redmine y Jira; colaboración y documentación.",
       technologies:
