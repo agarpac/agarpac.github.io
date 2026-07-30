@@ -46,7 +46,7 @@ const career = [
     role: "Drupal 7 developer",
     company: "eºmergya",
     period: "oct. 2017–ene. 2018 · 4 meses",
-    location: "Sevilla",
+    location: "Sevilla y alrededores",
   },
   {
     role: "Drupal 6 developer + QA",
