@@ -16,21 +16,39 @@ function formatUnit(value: number, singular: string, plural: string) {
   return `${value} ${value === 1 ? singular : plural}`;
 }
 
-export function CompanyTenure() {
+// Closed periods before eºmergya: two three-month work placements, at
+// Sermicro in 2010 and Viavansi in 2012.
+const PLACEMENT_MONTHS = 6;
+
+// eºmergya started in October 2017; month is zero-based, hence 9.
+function monthsSinceStart() {
   const today = new Date();
-  const totalMonths =
-    (today.getFullYear() - 2017) * 12 + today.getMonth() - 9 + 1;
+  return (today.getFullYear() - 2017) * 12 + today.getMonth() - 9 + 1;
+}
+
+function formatSpan(totalMonths: number) {
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;
-  const parts = [
+  return [
     years > 0 ? formatUnit(years, "año", "años") : null,
     months > 0 ? formatUnit(months, "mes", "meses") : null,
-  ].filter(Boolean);
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
 
-  // Anchored to the company named alongside it: the career list also holds
-  // roles at other companies, so an unqualified "total" would read as the
-  // whole career.
-  return <span>{parts.join(" ")} en plantilla</span>;
+// Derived rather than written into the role data, which would go stale every
+// month the current role stays open.
+export function CompanyTenure() {
+  return <span>{formatSpan(monthsSinceStart())}</span>;
+}
+
+export function TotalExperience() {
+  return (
+    <span>
+      Experiencia laboral · {formatSpan(monthsSinceStart() + PLACEMENT_MONTHS)}
+    </span>
+  );
 }
 
 export default function CvNavigation() {

@@ -1,5 +1,5 @@
 import CvGithubLink from "./CvGithubLink";
-import CvNavigation, { CompanyTenure } from "./CvNavigation";
+import CvNavigation, { CompanyTenure, TotalExperience } from "./CvNavigation";
 import styles from "./cv.module.css";
 
 const linkedInUrl = "https://www.linkedin.com/in/agarpac/";
@@ -7,46 +7,19 @@ const githubUrl = "https://github.com/agarpac";
 
 const career = [
   {
-    role: "QA Lead",
+    role: "QA Engineer - Lead",
     company: "eºmergya",
-    period: "ene. 2022–actualidad · 4 años 7 meses",
-    location: "Remoto",
-  },
-  {
-    role: "Senior QA Engineer",
-    company: "eºmergya",
-    period: "ene. 2020–feb. 2023 · 3 años 2 meses",
-  },
-  {
-    role: "Junior QA Engineer",
-    company: "eºmergya",
-    period: "abr. 2019–ene. 2020 · 10 meses",
-    location: "Sevilla y alrededores",
+    period: "oct. 2017–actualidad",
+    location: "En remoto",
+    ongoing: true,
     details: {
-      projects: "UEFA NTCM como QA Lead, easyJet y Deplace.",
+      projects:
+        "UEFA NTCM como QA Lead, easyJet, Deplace, Ebanq, Fisc Online, EmergyaDigital.com y Eurostar.",
       work:
-        "Scrum; Appium, Cypress y Botium; Postman; Jenkins y CI/CD; planes de pruebas manuales; Redmine y Jira; colaboración y documentación.",
+        "Scrum; Java y Selenium; Appium, Cypress y Botium; Postman; Jenkins y CI/CD; requisitos, planes de prueba manuales e incidencias; Redmine y Jira; colaboración y documentación.",
       technologies:
-        "Appium · Cypress · Botium · Postman · Jenkins · Redmine · Jira",
+        "Java · Selenium · Appium · Cypress · Botium · Postman · Jenkins · Redmine · Jira",
     },
-  },
-  {
-    role: "QA Assistant",
-    company: "eºmergya",
-    period: "feb. 2018–mar. 2019 · 1 año 2 meses",
-    location: "Sevilla y alrededores",
-    details: {
-      projects: "Ebanq, Fisc Online, EmergyaDigital.com y Eurostar.",
-      work:
-        "Scrum; Java y Selenium; Postman; requisitos, planes de prueba e incidencias; Jenkins.",
-      technologies: "Java · Selenium · Postman · Jenkins",
-    },
-  },
-  {
-    role: "Drupal 7 developer",
-    company: "eºmergya",
-    period: "oct. 2017–ene. 2018 · 4 meses",
-    location: "Sevilla y alrededores",
   },
   {
     role: "Drupal 6 developer + QA",
@@ -179,8 +152,7 @@ export default function CvDocument() {
             <span aria-hidden="true">02</span>
             <h2 id="trayectoria-title">Trayectoria</h2>
             <p className={styles.companySummary}>
-              eºmergya
-              <CompanyTenure />
+              <TotalExperience />
             </p>
           </header>
           <ol className={styles.career}>
@@ -197,11 +169,18 @@ export default function CvDocument() {
                       {role.internship ? <strong>Prácticas</strong> : null}
                     </div>
                     <p>{role.company}</p>
-                    <p>{role.period}</p>
+                    <p>
+                      {role.period}
+                      {role.ongoing ? (
+                        <>
+                          {" · "}
+                          <CompanyTenure />
+                        </>
+                      ) : null}
+                    </p>
                     {role.location ? <p>{role.location}</p> : null}
                     {role.details ? (
-                      <details className={styles.roleDetails}>
-                        <summary>Ver más</summary>
+                      <div className={styles.roleDetails}>
                         <div>
                           <p>
                             <strong>Proyectos</strong> {role.details.projects}
@@ -212,7 +191,7 @@ export default function CvDocument() {
                             {role.details.technologies}
                           </p>
                         </div>
-                      </details>
+                      </div>
                     ) : null}
                   </div>
                 </div>

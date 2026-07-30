@@ -399,16 +399,6 @@
   font-size: var(--text-signal-sm);
 }
 
-.roleDetails summary {
-  width: fit-content;
-  min-height: 2.75rem;
-  padding-block: var(--space-signal-3);
-  border-block-end: var(--rule-signal-hair) solid var(--color-signal-rule);
-  color: var(--color-signal-accent);
-  cursor: pointer;
-  user-select: none;
-}
-
 .roleDetails > div {
   max-width: 62ch;
   padding-block: var(--space-signal-3) var(--space-signal-2);
