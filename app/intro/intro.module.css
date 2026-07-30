@@ -129,6 +129,16 @@
   font-weight: 900;
 }
 
+/* Standalone rule between the two heading words. Sized in em so it tracks
+   the display font size across the breakpoints. */
+.headingRule {
+  display: block;
+  width: 2.2ch;
+  height: 0.09em;
+  margin-block: 0.16em;
+  background: var(--color-signal-accent);
+}
+
 .role {
   max-width: 38rem;
   margin: var(--space-signal-8) 0 0;

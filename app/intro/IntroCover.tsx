@@ -17,9 +17,10 @@ export default function IntroCover() {
         <div className={styles.copy}>
           <p className={styles.identity}>Alberto Garrido · QA Lead</p>
           <h1 id="signal-title">
-            Calidad que comprende.
+            Calidad
+            <span className={styles.headingRule} aria-hidden="true" />
             <span>
-              Ingenier<span className={styles.accent}>IA</span> que mejora.
+              Ingenier<span className={styles.accent}>IA</span>
             </span>
           </h1>
           <p className={styles.role}>
