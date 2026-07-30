@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alberto Garrido — QA Lead · Automation · Product",
+  title: "Alberto Garrido — QA Lead · Automation",
   description:
     "Portfolio de Alberto Garrido Pacheco, QA Lead especializado en liderazgo de calidad, automatización, entrega continua e ingeniería de producto.",
   authors: [{ name: "Alberto Garrido Pacheco" }],
@@ -30,17 +30,17 @@ export const metadata: Metadata = {
     "Sevilla",
   ],
   openGraph: {
-    title: "Alberto Garrido — Calidad, automatización y producto",
+    title: "Alberto Garrido — Calidad y automatización",
     description:
-      "Calidad para comprender sistemas. Ingeniería para mejorarlos.",
+      "Calidad para comprender productos. Ingeniería para mejorarlos.",
     type: "profile",
     locale: "es_ES",
   },
   twitter: {
     card: "summary",
-    title: "Alberto Garrido — QA Lead · Automation · Product",
+    title: "Alberto Garrido — QA Lead · Automation",
     description:
-      "Calidad para comprender sistemas. Ingeniería para mejorarlos.",
+      "Calidad para comprender productos. Ingeniería para mejorarlos.",
   },
   icons: {
     icon: [

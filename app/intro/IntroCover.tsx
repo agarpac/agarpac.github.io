@@ -17,14 +17,16 @@ export default function IntroCover() {
         <div className={styles.copy}>
           <p className={styles.identity}>Alberto Garrido · QA Lead</p>
           <h1 id="signal-title">
-            Hago visible
-            <span> lo complejo.</span>
+            Calidad que comprende.
+            <span>
+              Ingenier<span className={styles.accent}>IA</span> que mejora.
+            </span>
           </h1>
           <p className={styles.role}>
-            QA Lead · Quality Engineering · Product Builder
+            Quality Engineering · Automatización · Entrega continua
           </p>
           <p className={styles.lede}>
-            Conecto riesgo, automatización y producto para que los equipos
+            Conecto riesgo, automatización y herramientas para que los equipos
             tomen mejores decisiones y avancen con confianza.
           </p>
           <TransitionActions />
