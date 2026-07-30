@@ -48,6 +48,18 @@ const career = [
     period: "oct. 2017–ene. 2018 · 4 meses",
     location: "Sevilla",
   },
+  {
+    role: "Drupal 6 developer + QA",
+    company: "Viavansi",
+    period: "may. 2012–jul. 2012 · 3 meses",
+    internship: true,
+  },
+  {
+    role: "Técnico informático en laboratorio y en entorno cliente",
+    company: "Sermicro",
+    period: "abr. 2010–jun. 2010 · 3 meses",
+    internship: true,
+  },
 ];
 
 const capabilities = [
@@ -182,6 +194,7 @@ export default function CvDocument() {
                     <div className={styles.careerHeading}>
                       <h3>{role.role}</h3>
                       {index === 0 ? <strong>Actual</strong> : null}
+                      {role.internship ? <strong>Prácticas</strong> : null}
                     </div>
                     <p>{role.company}</p>
                     <p>{role.period}</p>
@@ -309,6 +322,13 @@ export default function CvDocument() {
                   Técnico Superior en Desarrollo de Aplicaciones Informáticas
                 </h3>
                 <p>Formación Profesional de Grado Superior</p>
+              </div>
+            </article>
+            <article>
+              <p>2008—2010</p>
+              <div>
+                <h3>Técnico en Explotación de Sistemas Informáticos</h3>
+                <p>IES Hermanos Machado</p>
               </div>
             </article>
           </div>

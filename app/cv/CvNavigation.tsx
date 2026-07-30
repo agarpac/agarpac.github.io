@@ -27,7 +27,10 @@ export function CompanyTenure() {
     months > 0 ? formatUnit(months, "mes", "meses") : null,
   ].filter(Boolean);
 
-  return <span>Antigüedad total · {parts.join(" ")}</span>;
+  // Anchored to the company named alongside it: the career list also holds
+  // roles at other companies, so an unqualified "total" would read as the
+  // whole career.
+  return <span>{parts.join(" ")} en plantilla</span>;
 }
 
 export default function CvNavigation() {
