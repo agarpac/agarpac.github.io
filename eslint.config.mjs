@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Agent worktrees carry their own build output, which the `dist`
+    // ignore pattern does not reach because it is nested.
+    ".claude/**",
   ]),
 ]);
 
