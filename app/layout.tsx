@@ -43,8 +43,11 @@ export const metadata: Metadata = {
       "Calidad para comprender sistemas. Ingeniería para mejorarlos.",
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
+    ],
+    shortcut: "/favicon.ico",
   },
 };
 
