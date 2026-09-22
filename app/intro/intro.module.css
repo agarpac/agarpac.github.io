@@ -8,7 +8,7 @@
 }
 
 .rootExperience > div,
-.rootExperience > canvas[content="drawable"] > div {
+.rootExperience > canvas[layoutsubtree] > div {
   scroll-behavior: smooth;
 }
 
@@ -257,7 +257,6 @@
 }
 
 .objectStage,
-.objectOverlay,
 .objectCanvas,
 .objectCanvas canvas,
 .objectPoster {
@@ -279,15 +278,6 @@
 
 .objectStage[data-object-status="ready"] .objectCanvas {
   opacity: 1;
-}
-
-.objectOverlay[data-object-status="ready"] .objectCanvas {
-  opacity: 1;
-}
-
-.objectOverlay {
-  pointer-events: none;
-  transform-origin: top left;
 }
 
 .objectPoster {
@@ -389,12 +379,12 @@
   }
 
   .rootExperience > div,
-  .rootExperience > canvas[content="drawable"] > div {
+  .rootExperience > canvas[layoutsubtree] > div {
     height: auto !important;
     overflow: visible !important;
   }
 
-  .rootExperience > canvas[content="drawable"] {
+  .rootExperience > canvas[layoutsubtree] {
     position: static !important;
     width: 100% !important;
     height: auto !important;
@@ -527,7 +517,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rootExperience > div,
-  .rootExperience > canvas[content="drawable"] > div {
+  .rootExperience > canvas[layoutsubtree] > div {
     scroll-behavior: auto;
   }
 

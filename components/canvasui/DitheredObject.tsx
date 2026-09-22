@@ -29,6 +29,10 @@ type DitheredObjectProps = {
   onError?: (error: unknown) => void;
 };
 
+type PaintableAncestorCanvas = HTMLCanvasElement & {
+  requestPaint?: () => void;
+};
+
 const POST_VERTEX_SHADER = `
   varying vec2 vUv;
 
@@ -151,6 +155,9 @@ export default function DitheredObject({
     const wrapper = wrapperRef.current;
     const canvas = canvasRef.current;
     if (!wrapper || !canvas) return;
+    const paintableAncestor = canvas.closest(
+      'canvas[content="drawable"], canvas[layoutsubtree]',
+    ) as PaintableAncestorCanvas | null;
 
     const abortController = new AbortController();
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -277,6 +284,7 @@ export default function DitheredObject({
       renderer.setRenderTarget(null);
       renderer.clear();
       renderer.render(postScene, postCamera);
+      paintableAncestor?.requestPaint?.();
     };
 
     const stopLoop = () => {

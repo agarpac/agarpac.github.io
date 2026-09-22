@@ -1,9 +1,7 @@
 "use client";
 
 import {
-  createContext,
   useEffect,
-  useContext,
   useRef,
   useState,
   useSyncExternalStore,
@@ -43,7 +41,7 @@ export interface ParticleScrollOptions {
 }
 
 export interface ParticleScrollElements {
-  /** Canvas with layoutsubtree that hosts the HTML content. */
+  /** Canvas with drawable content that hosts the HTML content. */
   source: HTMLCanvasElement;
   /** The scrollable element inside the source canvas that gets captured. */
   content: HTMLElement;
@@ -58,25 +56,6 @@ export interface ParticleScrollInstance {
   resize: () => void;
   /** Stop the loop and release all GPU resources. */
   destroy: () => void;
-}
-
-type ParticleScrollOverlayContextValue = {
-  active: boolean;
-  target: HTMLDivElement | null;
-};
-
-const ParticleScrollOverlayContext =
-  createContext<ParticleScrollOverlayContextValue>({
-    active: false,
-    target: null,
-  });
-
-/**
- * Returns the live layer used for content that cannot be rasterized reliably by
- * drawElementImage, such as an animated WebGL canvas.
- */
-export function useParticleScrollOverlay(): ParticleScrollOverlayContextValue {
-  return useContext(ParticleScrollOverlayContext);
 }
 
 const DEFAULTS: Required<ParticleScrollOptions> = {
@@ -104,24 +83,14 @@ type ElementImageContext = CanvasRenderingContext2D & {
   drawElementImage?: (element: Element, x: number, y: number) => void;
 };
 
-type ExperimentalCanvasAttributes =
-  React.CanvasHTMLAttributes<HTMLCanvasElement> & {
-    content: "drawable";
-    layoutsubtree: "true";
-  };
-
-type DrawableAttributes = React.HTMLAttributes<HTMLDivElement> & {
-  drawable: "";
-};
-
 // Keep layoutsubtree during the origin-trial migration. Current Chromium uses
 // content="drawable"; older trial builds ignore it and use layoutsubtree.
-const HTML_IN_CANVAS_ATTRIBUTES: ExperimentalCanvasAttributes = {
+const HTML_IN_CANVAS_ATTRIBUTES = {
   content: "drawable",
   layoutsubtree: "true",
-};
+} as const;
 
-const DRAWABLE_ATTRIBUTES: DrawableAttributes = { drawable: "" };
+const DRAWABLE_ATTRIBUTES = { drawable: "" } as const;
 
 const HASH = `
 float hash (vec2 p) {
@@ -290,7 +259,6 @@ export function supportsHtmlInCanvas(): boolean {
 export function createParticleScroll(
   elements: ParticleScrollElements,
   options: ParticleScrollOptions = {},
-  onCaptureError?: (error: unknown) => void,
 ): ParticleScrollInstance | null {
   const config = { ...DEFAULTS, ...options };
   const { source, content, output } = elements;
@@ -313,7 +281,6 @@ export function createParticleScroll(
   );
 
   let contentDirty = false;
-  let captureFailed = false;
   let wake = () => {};
 
   if (htmlInCanvas) {
@@ -323,12 +290,7 @@ export function createParticleScroll(
         sourceCtx!.drawElementImage!(content, 0, 0);
         contentDirty = true;
         wake();
-      } catch (error) {
-        if (captureFailed) return;
-        captureFailed = true;
-        paintable.onpaint = null;
-        onCaptureError?.(error);
-      }
+      } catch {}
     };
   }
 
@@ -818,9 +780,6 @@ export function ParticleScroll({
   const instanceRef = useRef<ParticleScrollInstance | null>(null);
   const [initialOptions] = useState(options);
   const [failed, setFailed] = useState(false);
-  const [overlayTarget, setOverlayTarget] = useState<HTMLDivElement | null>(
-    null,
-  );
 
   const supported = useSyncExternalStore(
     emptySubscribe,
@@ -839,13 +798,6 @@ export function ParticleScroll({
     instanceRef.current = createParticleScroll(
       { source, content, output },
       initialOptions,
-      (error) => {
-        console.warn(
-          "HTML-in-Canvas capture failed; using the DOM fallback.",
-          error,
-        );
-        setFailed(true);
-      },
     );
     if (native && !instanceRef.current) setFailed(true);
     return () => {
@@ -859,44 +811,21 @@ export function ParticleScroll({
   });
 
   return (
-    <ParticleScrollOverlayContext.Provider
-      value={{ active: native, target: overlayTarget }}
-    >
-      <div className={className} style={{ position: "relative", ...style }}>
-        <canvas
-          ref={sourceRef}
-          {...HTML_IN_CANVAS_ATTRIBUTES}
-          suppressHydrationWarning
-          style={
-            native
-              ? {
-                  position: "absolute",
-                  inset: 0,
-                  zIndex: 0,
-                  width: "100%",
-                  height: "100%",
-                }
-              : { display: "none" }
-          }
-        >
-          {native ? (
-            <div
-              ref={contentRef}
-              {...DRAWABLE_ATTRIBUTES}
-              style={{
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                overflow: "auto",
-              }}
-            >
-              {children}
-            </div>
-          ) : null}
-        </canvas>
-        {!native ? (
+    <div className={className} style={{ position: "relative", ...style }}>
+      <canvas
+        ref={sourceRef}
+        {...HTML_IN_CANVAS_ATTRIBUTES}
+        suppressHydrationWarning
+        style={
+          native
+            ? { position: "absolute", inset: 0, width: "100%", height: "100%" }
+            : { display: "none" }
+        }
+      >
+        {native ? (
           <div
             ref={contentRef}
+            {...DRAWABLE_ATTRIBUTES}
             style={{
               position: "relative",
               width: "100%",
@@ -907,33 +836,32 @@ export function ParticleScroll({
             {children}
           </div>
         ) : null}
-        <canvas
-          ref={outputRef}
-          aria-hidden
+      </canvas>
+      {!native ? (
+        <div
+          ref={contentRef}
           style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 1,
+            position: "relative",
             width: "100%",
             height: "100%",
-            pointerEvents: "none",
+            overflow: "auto",
           }}
-        />
-        {native ? (
-          <div
-            ref={setOverlayTarget}
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 2,
-              overflow: "hidden",
-              pointerEvents: "none",
-            }}
-          />
-        ) : null}
-      </div>
-    </ParticleScrollOverlayContext.Provider>
+        >
+          {children}
+        </div>
+      ) : null}
+      <canvas
+        ref={outputRef}
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+        }}
+      />
+    </div>
   );
 }
 
