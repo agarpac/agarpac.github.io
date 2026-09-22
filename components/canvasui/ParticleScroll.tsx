@@ -288,6 +288,18 @@ export function createParticleScroll(
       try {
         sourceCtx!.reset();
         sourceCtx!.drawElementImage!(content, 0, 0);
+        const contentRect = content.getBoundingClientRect();
+        const gridScale = source.width / Math.max(source.clientWidth, 1);
+        for (const drawable of content.querySelectorAll("[drawable]")) {
+          const rect = drawable.getBoundingClientRect();
+          try {
+            sourceCtx!.drawElementImage!(
+              drawable,
+              (rect.left - contentRect.left) * gridScale,
+              (rect.top - contentRect.top) * gridScale,
+            );
+          } catch {}
+        }
         contentDirty = true;
         wake();
       } catch {}
