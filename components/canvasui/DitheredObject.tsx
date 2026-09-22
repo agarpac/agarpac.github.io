@@ -182,6 +182,7 @@ export default function DitheredObject({
         canvas,
         alpha: true,
         antialias: false,
+        preserveDrawingBuffer: true,
         powerPreference: "high-performance",
       });
     } catch (error) {
