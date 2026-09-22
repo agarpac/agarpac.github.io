@@ -143,6 +143,7 @@ export default function DitheredObject({
 }: DitheredObjectProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const snapshotRef = useRef<HTMLCanvasElement>(null);
   const onLoadRef = useRef(onLoad);
   const onErrorRef = useRef(onError);
 
@@ -154,10 +155,14 @@ export default function DitheredObject({
   useEffect(() => {
     const wrapper = wrapperRef.current;
     const canvas = canvasRef.current;
-    if (!wrapper || !canvas) return;
+    const snapshot = snapshotRef.current;
+    if (!wrapper || !canvas || !snapshot) return;
     const paintableAncestor = canvas.closest(
       'canvas[content="drawable"], canvas[layoutsubtree]',
     ) as PaintableAncestorCanvas | null;
+    const snapshotContext = paintableAncestor
+      ? snapshot.getContext("2d")
+      : null;
 
     const abortController = new AbortController();
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -284,6 +289,12 @@ export default function DitheredObject({
       renderer.setRenderTarget(null);
       renderer.clear();
       renderer.render(postScene, postCamera);
+      if (snapshotContext) {
+        if (snapshot.width !== canvas.width) snapshot.width = canvas.width;
+        if (snapshot.height !== canvas.height) snapshot.height = canvas.height;
+        snapshotContext.clearRect(0, 0, snapshot.width, snapshot.height);
+        snapshotContext.drawImage(canvas, 0, 0);
+      }
       paintableAncestor?.requestPaint?.();
     };
 
@@ -458,6 +469,7 @@ export default function DitheredObject({
   return (
     <div ref={wrapperRef} className={className} aria-hidden="true">
       <canvas ref={canvasRef} />
+      <canvas ref={snapshotRef} style={{ pointerEvents: "none" }} />
     </div>
   );
 }
